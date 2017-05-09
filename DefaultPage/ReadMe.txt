@@ -1,0 +1,1 @@
+The default page is the replacement of the iisstart.html page on the default web site on each web server.
