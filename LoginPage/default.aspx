@@ -12,51 +12,64 @@
 </asp:Content>
 
 <asp:Content ContentPlaceHolderId="PlaceHolderPageTitle" runat="server">
-    5Eyes - 
-	<SharePoint:EncodedLiteral runat="server"  EncodeMethod="HtmlEncode" Id="ClaimsLogonPageTitle" />
+ <!-- Removed by PW - <SharePoint:EncodedLiteral runat="server"  EncodeMethod="HtmlEncode" Id="ClaimsLogonPageTitle" /> -->
 </asp:Content>
 <asp:Content ContentPlaceHolderId="PlaceHolderPageTitleInTitleArea" runat="server">
-	FVEY Collaboration Working Environment – 
-    <SharePoint:EncodedLiteral runat="server"  EncodeMethod="HtmlEncode" Id="ClaimsLogonPageTitleInTitleArea" />
+    <!-- Removed by PW - <SharePoint:EncodedLiteral runat="server"  EncodeMethod="HtmlEncode" Id="ClaimsLogonPageTitleInTitleArea" /> -->
 </asp:Content>
 <asp:Content ContentPlaceHolderId="PlaceHolderMain" runat="server">
-    <!-- The Modal -->
+    
+    <!-- The modal Conditions of Use section-->
     <div id="ModalConditions" class="modal">
         <div id="ConditionsPopUp" class="modal-inner">
 
             <!-- Modal content -->
-            <div id="myModalContent" class="modal-content">
-                <p id="contentTitle"><strong>Conditions of Use</strong></p>
-                <p>You are entering a UK Information System that is provided for 5EYEs use</p>
-                <p>By using this system you are consenting to use it in accordance with the UK <a href="">Web Portal Security Instructions</a></p>
-                <p><strong>Use of this system is routinely monitored, recorded and audited to ensure that users are carrying out their responsibilities</strong></p>
+            <div id="ModalContent" class="modal-content">
+                <p class="modal-content-title  modal-emphasis">Conditions of Use</p>
+                <p>You are entering a UK Information System that is provided for <span id="CaveatText">5EYE</span> use</p>
+                <p>By using this system you are consenting to use it in accordance with the UK <a href="http://fvey.diif.s.mil.uk/sitecollectiondocuments/non%20authenticated%20documents/20160329-Web_Portal_Security_Instructions_v1.pdf">Web Portal Security Instructions</a></p>
+                <p class="modal-emphasis">Use of this system is routinely monitored, recorded and audited to ensure that users are carrying out their responsibilities</p>
                 <p>Breaches of the Web Portal Security Instructions may render the offender liable to disciplinary action</p>
 
             </div>
-            <div id="myModalContentButtonDiv" class="modal-content-div">
+            <div id="ModalContentButton" class="modal-content-btn">
                 <img id="btnClose" alt="Click to agree" src="agree.png" />
             </div>      
         </div>
     </div>
-    <div id="LoginWindow">
-        <div id="LoginWindow1009">
+
+<!-- Login Window additional information -->
+    <div class="login-window">
+        <div class="login-window-1009">
             <img src="MoD_masthead.png" alt="MoD Banner" />
             
-            <div class="login-text">
-            
-                <p>The drop down below will present you with two choices for you to select from.  You should select the Windows Authentication in the drop down if you’re a user from one of the other FVEY’s nations.  When prompted enter UKFVEY\<userid> into the Username field and your UK Pegasus password into the Password field.  If you’re a user from the United Kingdom and accessing the Sharepoint site from MODNet, DII, etc, you should select the FVEY_CWE option.  You should be automatically logged in.  </p>
+            <div class="nation-images">
+                <img src="aus.jpg" alt="Australia"/>
+                <img src="can.jpg" alt="Cananda"/>
+                <img src="uk.jpg" alt="United Kingdom"/>
+                <img src="nz.jpg" alt="New Zealand"/>
+                <img src="us.jpg" alt="United States of America"/>                
+            </div>
 
-                <p>If you are unsure which option to select please refer to the Frequently Asked Question page</p>
+            <div class="login-text">            
+                <p>The drop down below will present you with two choices for you to select from.  You should select the Windows Authentication in the drop down if you’re a user from one of the other FVEY’s nations.  When prompted enter UKFVEY\&lt;userid&gt; into the Username field and your UK Pegasus password into the Password field.  If you’re a user from the United Kingdom and accessing the Sharepoint site from MODNet, DII, etc, you should select the FVEY_CWE option.  You should be automatically logged in.  </p>
+
+                <p>If you are unsure which option to select please refer to the <a href="http://fvey.diif.s.mil.uk/pages/FrequentlyAskedQuestions.aspx">Frequently Asked Question</a> page.</p>
             
-                <p>Select the credentials you want to use to logon to this Sharepoint site</p>
+                <p>Select the credentials you want to use to logon to this Sharepoint site:</p>
+
+                <SharepointIdentity:LogonSelector ID="ClaimsLogonSelector" runat="server" />
             </div>
         </div>
+        <!-- Removed by PW - <SharePoint:EncodedLiteral runat="server"  EncodeMethod="HtmlEncode" Id="ClaimsLogonPageMessage" />
+        <br />
+        <br /> -->
+
+        
+    
     </div>
     
-<SharePoint:EncodedLiteral runat="server"  EncodeMethod="HtmlEncode" Id="ClaimsLogonPageMessage" />
-<br />
-<br />
-<SharepointIdentity:LogonSelector ID="ClaimsLogonSelector" runat="server" />
+
     <script type="text/javascript">
         // Get the modal
         var modal = document.getElementById('ModalConditions');

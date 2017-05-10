@@ -44,6 +44,14 @@ Copy-Item -Path MoD_masthead.png -Destination $LoginPath
 Copy-Item -Path IOGLogin.css -Destination $LoginPath
 Copy-Item -Path Agree.png -Destination $LoginPath
 Copy-Item -Path Default.aspx -Destination $LoginPath
+
+Copy-Item -Path aus.jpg -Destination $LoginPath
+Copy-Item -Path can.jpg -Destination $LoginPath
+Copy-Item -Path nz.jpg -Destination $LoginPath
+Copy-Item -Path uk.jpg -Destination $LoginPath
+Copy-Item -Path us.jpg -Destination $LoginPath
+
+
 Write-Host "SharePoint IOG Login Page setup complete.  Please sign-out of SharePoint to see changes." -ForegroundColor Magenta
 
 
