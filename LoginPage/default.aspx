@@ -16,35 +16,52 @@
 	<SharePoint:EncodedLiteral runat="server"  EncodeMethod="HtmlEncode" Id="ClaimsLogonPageTitle" />
 </asp:Content>
 <asp:Content ContentPlaceHolderId="PlaceHolderPageTitleInTitleArea" runat="server">
-	5Eyes - 
+	FVEY Collaboration Working Environment – 
     <SharePoint:EncodedLiteral runat="server"  EncodeMethod="HtmlEncode" Id="ClaimsLogonPageTitleInTitleArea" />
 </asp:Content>
 <asp:Content ContentPlaceHolderId="PlaceHolderMain" runat="server">
     <!-- The Modal -->
-    <div id="myModal" class="modal">
-        <div id="myModalInner" class="modal-inner">
+    <div id="ModalConditions" class="modal">
+        <div id="ConditionsPopUp" class="modal-inner">
+
             <!-- Modal content -->
-            <div id="myModalContent" class="modal-content">                
-                <p>Please click the Agree button to confirm you agree to the Terms and Conditions of using this site or leave the site by closing your browser window.</p>
+            <div id="myModalContent" class="modal-content">
+                <p id="contentTitle"><strong>Conditions of Use</strong></p>
+                <p>You are entering a UK Information System that is provided for 5EYEs use</p>
+                <p>By using this system you are consenting to use it in accordance with the UK <a href="">Web Portal Security Instructions</a></p>
+                <p><strong>Use of this system is routinely monitored, recorded and audited to ensure that users are carrying out their responsibilities</strong></p>
+                <p>Breaches of the Web Portal Security Instructions may render the offender liable to disciplinary action</p>
+
             </div>
             <div id="myModalContentButtonDiv" class="modal-content-div">
-                <div id="col1" class="col">&nbsp;</div>
-                <div id="col2" class="col col-with-btn"><span id="btnClose" class="close">Agree</span></div>
-                <div id="col3" class="col"></div>
-            </div>            
-            
+                <img id="btnClose" alt="Click to agree" src="agree.png" />
+            </div>      
         </div>
     </div>
-    <div class="login-text"><img src="5eyes.png" alt="5Eyes" /><span>The drop down below will present you with two choices for you to select from.  You should select the <b>Windows Authentication</b> in the drop down if you're a user from the United Kingdom and accessing the web site via a DIIF UAD.  If you're a user from one the the other 5Eye's nations you should select the <b>Forms</b> option.  If you are unsure which option to select please contact you Adminstrator or We Support on 111-222-333</span></div>
+    <div id="LoginWindow">
+        <div id="LoginWindow1009">
+            <img src="MoD_masthead.png" alt="MoD Banner" />
+            
+            <div class="login-text">
+            
+                <p>The drop down below will present you with two choices for you to select from.  You should select the Windows Authentication in the drop down if you’re a user from one of the other FVEY’s nations.  When prompted enter UKFVEY\<userid> into the Username field and your UK Pegasus password into the Password field.  If you’re a user from the United Kingdom and accessing the Sharepoint site from MODNet, DII, etc, you should select the FVEY_CWE option.  You should be automatically logged in.  </p>
+
+                <p>If you are unsure which option to select please refer to the Frequently Asked Question page</p>
+            
+                <p>Select the credentials you want to use to logon to this Sharepoint site</p>
+            </div>
+        </div>
+    </div>
+    
 <SharePoint:EncodedLiteral runat="server"  EncodeMethod="HtmlEncode" Id="ClaimsLogonPageMessage" />
 <br />
 <br />
 <SharepointIdentity:LogonSelector ID="ClaimsLogonSelector" runat="server" />
     <script type="text/javascript">
         // Get the modal
-        var modal = document.getElementById('myModal');
+        var modal = document.getElementById('ModalConditions');
 
-        // Get the <span> element that closes the modal
+        // Get the element that closes the modal
         var span = document.getElementById("btnClose");
 
         span.onclick = function () {

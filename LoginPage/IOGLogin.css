@@ -15,26 +15,64 @@
 
 
 .modal-inner {
-    background-color: deepskyblue;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 45px 0; /*Padding top and bottom but not Left and Right*/
-    border: 1px solid #888;
-    width: 40%; /* Could be more or less, depending on screen size */
+    margin: 15% auto; 
+    width: 40%; 
 }
 
 /* Modal Content/Box */
 .modal-content {
-    background-color: #fefefe;
-    /* margin: auto 0; /* from the top and centered */
+    background-color: white;
     padding: 20px;
-    border: 1px solid #888;
-    /*width: auto; /* Could be more or less, depending on screen size */
-    margin-bottom:15px;
+}
+
+.modal-content p{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12pt;
+    font-weight: bold;
+    padding-bottom: 15px;
+}
+
+.modal-content-div{
+    background-color: white;
+    padding-bottom: 25px;
+}
+
+.modal-content-div img {
+    display:block;
+    margin-left:auto; 
+    margin-right:auto
+}
+
+#contentTitle{
+    font-size:14pt;
+    text-align: center;
+    font-weight: bold;
 }
 
 .login-text {
-    font-family: Futura,Trebuchet MS,Arial,sans-serif; 
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:12pt; 
     padding-bottom:8px;
+}
+
+#LoginWindow{
+    position:absolute; 
+    top:0px; 
+    left:0px; 
+    width:100%; 
+    height:auto
+}
+
+#LoginWindow1009{
+    width:1009px; 
+    margin-left:auto; 
+    margin-right:auto
+}
+
+#LoginWindow1009 img {
+    display:block; 
+    margin-left:auto; 
+    margin-right:auto
 }
 
 .close {
@@ -58,11 +96,10 @@
     float:left;
 }
 
-.modal-content-dev{
-
-}
-
 .col-with-btn{
     text-align:center;
+}
 
+#ms-error-header{
+    margin-top:318px;
 }

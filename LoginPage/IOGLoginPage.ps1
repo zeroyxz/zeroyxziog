@@ -40,8 +40,9 @@ else {
 cd C:\iog\LoginPage
 
 Write-Host "Copying files to desired location..." -ForegroundColor Magenta
-Copy-Item -Path 5Eyes.png -Destination $LoginPath
+Copy-Item -Path MoD_masthead.png -Destination $LoginPath
 Copy-Item -Path IOGLogin.css -Destination $LoginPath
+Copy-Item -Path Agree.png -Destination $LoginPath
 Copy-Item -Path Default.aspx -Destination $LoginPath
 Write-Host "SharePoint IOG Login Page setup complete.  Please sign-out of SharePoint to see changes." -ForegroundColor Magenta
 
