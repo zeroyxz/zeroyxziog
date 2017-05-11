@@ -8,7 +8,7 @@
 <%@ Import Namespace="Microsoft.SharePoint" %> <%@ Assembly Name="Microsoft.Web.CommandUI, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 
 <asp:Content ContentPlaceHolderID="PlaceHolderAdditionalPageHead" runat="server">
-    <link href="IOGLogin.css" type="text/css" rel="stylesheet" />
+    <link href="iog/stylesheets/IOG.css" type="text/css" rel="stylesheet" />
 </asp:Content>
 
 <asp:Content ContentPlaceHolderId="PlaceHolderPageTitle" runat="server">
@@ -33,7 +33,7 @@
 
             </div>
             <div id="ModalContentButton" class="modal-content-btn">
-                <img id="btnClose" alt="Click to agree" src="agree.png" />
+                <img id="btnClose" alt="Click to agree" src="iog/images/agree.png" />
             </div>      
         </div>
     </div>
@@ -41,7 +41,7 @@
 <!-- Login Window additional information -->
     <div class="login-window">
         <div class="login-window-1009">
-            <img src="MoD_masthead.png" alt="MoD Banner" />
+            <img src="iog/images/MoD_masthead.png" alt="MoD Banner" />
             
             <div class="nation-images">
                 

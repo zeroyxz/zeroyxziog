@@ -1,0 +1,96 @@
+/************************************************************/
+/*Author: Peter Worlin
+/************************************************************/
+
+/*************************************************************/
+/* Below are the styles for the Conditions of Use modal box  */
+/*************************************************************/
+.modal { /* For filling the entire screen */
+    display: block; /* Display by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4) !important; /* Black w/ opacity */
+    padding-top:20px;
+    
+}
+
+
+.modal-inner { /*The pop up modal window */
+    margin: 5% auto; 
+    width: 40%; 
+}
+
+.modal-emphasis { /* Add some emphasis */
+    font-weight: bolder;
+}
+
+
+.modal-content { /* Modal content box that contains the text */
+    background-color: white;
+    padding: 20px;
+}
+
+.modal-content-title{ /* Style the title */
+    font-size:14pt !important;
+    text-align: center;
+    padding-bottom: 25px !important;
+}
+
+.modal-content p{ /* For styling the text */
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12pt;
+    padding-bottom: 15px;
+}
+
+.modal-content-btn{ /* For the Agree button */
+    background-color: white;
+    padding-bottom: 25px;
+}
+
+.modal-content-btn img { /* The agree btn image */
+    display:block;
+    margin-left:auto; 
+    margin-right:auto
+}
+
+/*************************************************************/
+/* Below are the styles for the login page additions         */
+/*************************************************************/
+.login-window{ /* Absolutely position it at the top to move other SP stuff down*/
+    position:absolute; 
+    top:0px; 
+    left:0px; 
+    width:100%; 
+    height:auto
+}
+
+.login-window-1009{ /* fix a width & centre based on the banner image */
+    width:1009px; 
+    margin-left:auto; 
+    margin-right:auto
+}
+
+.login-text {/* Text displayed to user on login page */
+    clear: all;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:12pt; 
+    padding-bottom:8px;
+}
+
+.nation-images {
+    /*padding-left: 50px;*/
+    padding-top: 40px;
+    padding-bottom: 20px;
+    overflow: auto;
+}
+.nation-images img{ /* Any kind f scaling applied to the images doesn't fit the content on to1280 x 768 and the images loose resolution*/
+    margin-left:auto;
+    margin-right: auto;
+    padding-left:40px;
+}
