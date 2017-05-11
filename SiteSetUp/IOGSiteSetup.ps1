@@ -153,7 +153,7 @@ $PSVersionTable.PSVersion
 AddPowerShellSnapin
 
 #-Get information from user about what we are deployin-#
-$caveat = Read-Host "Which caveat is being customised?:[E]=5-EYE, [U]=UKUS, [A]=AUSUK, enter E,U or A:"
+
 $option = Read-Host "Do you want the full customisation of the IOG site [F] or just the SuiteBar updated [S]:"
 $url = Read-Host "What is the URL of your site colection:"
 

@@ -11,11 +11,13 @@
 #---------------------------------#
 #---Function Declarations Start---#
 #---------------------------------#
-
 Write-Host "Before you run this script check that the original default.aspx exists in the Login location as this will be backed-up by this script" -ForegroundColor Magenta
 
+$CaveatText="Unset"
+$CaveatImage="Unset"
+
 $LoginPath = "C:\Program Files\Common Files\Microsoft Shared\Web Server Extensions\15\template\identitymodel\login"
-$ChangeLogin = Read-Host "The script assumes the path to the login folder is: $loginpath .Do you want to set it to something else, [Y]es or [N]o:"
+$ChangeLogin = 'n'#DEBUG#Read-Host "The script assumes the path to the login folder is: $loginpath .Do you want to set it to something else, [Y]es or [N]o:"
 if ($ChangeLogin -eq "Y"){
     $LoginPath = Read-Host "Please enter the path to the login folder on this server:"
 }
@@ -37,7 +39,11 @@ else {
 }
 
 
+
+
+
 cd C:\iog\LoginPage
+
 
 Write-Host "Copying files to desired location..." -ForegroundColor Magenta
 Copy-Item -Path MoD_masthead.png -Destination $LoginPath
@@ -50,6 +56,30 @@ Copy-Item -Path can.jpg -Destination $LoginPath
 Copy-Item -Path nz.jpg -Destination $LoginPath
 Copy-Item -Path uk.jpg -Destination $LoginPath
 Copy-Item -Path us.jpg -Destination $LoginPath
+
+#Put the right information in the file after copied to desitination
+cd c:\iog
+
+switch ($caveat)
+{
+    "A" {
+        $CaveatText = "AUSUK"
+        $CaveatImage = '<div style="width:50%;float:left"><img style="display:block" src="aus.jpg" alt="Australia"/></div><div style="width:50%;float:left"><img style="display:block" src="uk.jpg" alt="United Kingdom"/></div>'
+        }
+    "E" {
+        $CaveatText = "5EYES"
+        $CaveatImage = '<img style="margin-left:40px" src="aus.jpg" alt="Australia"/><img src="can.jpg" alt="Cananda"/><img src="uk.jpg" alt="United Kingdom"/><img src="nz.jpg" alt="New Zealand"/><img src="us.jpg" alt="United States of America"/>'
+        }
+    "U" {
+        $CaveatText = "UKUS"
+        $CaveatImage = '<div style="width:50%;float:left"><img style="display:block" src="uk.jpg" alt="United Kingdom"/></div><div style="width:50%;float:left"><img style="display:block" src="us.jpg" alt="United States of America"/></div>'
+        }
+    default {"Do not understand the caveat you have entered"}
+}
+
+
+.\ReplaceFileString.ps1 -Pattern 'caveattexthere' -Replacement $CaveatText -path $LoginPath\default.aspx -overwrite
+.\ReplaceFileString.ps1 -Pattern 'caveatimageshere' -Replacement $CaveatImage -path $LoginPath\default.aspx -overwrite
 
 
 Write-Host "SharePoint IOG Login Page setup complete.  Please sign-out of SharePoint to see changes." -ForegroundColor Magenta

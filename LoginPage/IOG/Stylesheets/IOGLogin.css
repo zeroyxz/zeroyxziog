@@ -77,16 +77,20 @@
 }
 
 .login-text {/* Text displayed to user on login page */
+    clear: all;
     font-family: Arial, Helvetica, sans-serif;
     font-size:12pt; 
     padding-bottom:8px;
 }
 
 .nation-images {
-    padding-left: 50px;
-    padding-top: 75px;
-    padding-bottom: 50px;
+    /*padding-left: 50px;*/
+    padding-top: 40px;
+    padding-bottom: 20px;
+    overflow: auto;
 }
-.nation-images img{
+.nation-images img{ /* Any kind f scaling applied to the images doesn't fit the content on to1280 x 768 and the images loose resolution*/
+    margin-left:auto;
+    margin-right: auto;
     padding-left:40px;
 }

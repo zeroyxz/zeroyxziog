@@ -1,4 +1,4 @@
-﻿<%@ Assembly Name="Microsoft.SharePoint.IdentityModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Assembly Name="Microsoft.SharePoint.IdentityModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 <%@ Register Tagprefix="SharepointIdentity" Namespace="Microsoft.SharePoint.IdentityModel" Assembly="Microsoft.SharePoint.IdentityModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
 <%@ Assembly Name="Microsoft.SharePoint, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"%>
 <%@ Page Language="C#" Inherits="Microsoft.SharePoint.IdentityModel.Pages.MultiLogonPage" MasterPageFile="~/_layouts/15/errorv15.master"       %>
@@ -12,7 +12,7 @@
 </asp:Content>
 
 <asp:Content ContentPlaceHolderId="PlaceHolderPageTitle" runat="server">
- <!-- Removed by PW - <SharePoint:EncodedLiteral runat="server"  EncodeMethod="HtmlEncode" Id="ClaimsLogonPageTitle" /> -->
+    <SharePoint:EncodedLiteral runat="server"  EncodeMethod="HtmlEncode" Id="ClaimsLogonPageTitle" />
 </asp:Content>
 <asp:Content ContentPlaceHolderId="PlaceHolderPageTitleInTitleArea" runat="server">
     <!-- Removed by PW - <SharePoint:EncodedLiteral runat="server"  EncodeMethod="HtmlEncode" Id="ClaimsLogonPageTitleInTitleArea" /> -->
@@ -26,7 +26,7 @@
             <!-- Modal content -->
             <div id="ModalContent" class="modal-content">
                 <p class="modal-content-title  modal-emphasis">Conditions of Use</p>
-                <p>You are entering a UK Information System that is provided for <span id="CaveatText">5EYE</span> use</p>
+                <p>You are entering a UK Information System that is provided for caveattexthere use</p>
                 <p>By using this system you are consenting to use it in accordance with the UK <a href="http://fvey.diif.s.mil.uk/sitecollectiondocuments/non%20authenticated%20documents/20160329-Web_Portal_Security_Instructions_v1.pdf">Web Portal Security Instructions</a></p>
                 <p class="modal-emphasis">Use of this system is routinely monitored, recorded and audited to ensure that users are carrying out their responsibilities</p>
                 <p>Breaches of the Web Portal Security Instructions may render the offender liable to disciplinary action</p>
@@ -44,29 +44,24 @@
             <img src="MoD_masthead.png" alt="MoD Banner" />
             
             <div class="nation-images">
-                <img src="aus.jpg" alt="Australia"/>
-                <img src="can.jpg" alt="Cananda"/>
-                <img src="uk.jpg" alt="United Kingdom"/>
-                <img src="nz.jpg" alt="New Zealand"/>
-                <img src="us.jpg" alt="United States of America"/>                
+                
+                caveatimageshere
+                
             </div>
 
             <div class="login-text">            
-                <p>The drop down below will present you with two choices for you to select from.  You should select the Windows Authentication in the drop down if you’re a user from one of the other FVEY’s nations.  When prompted enter UKFVEY\&lt;userid&gt; into the Username field and your UK Pegasus password into the Password field.  If you’re a user from the United Kingdom and accessing the Sharepoint site from MODNet, DII, etc, you should select the FVEY_CWE option.  You should be automatically logged in.  </p>
+                <p>The drop down below will present you with two choices for you to select from.  You should select the Windows Authentication in the drop down if you're a user from one of the other FVEY's nations.  When prompted enter UKFVEY\&lt;userid&gt; into the Username field and your UK Pegasus password into the Password field.  If you're a user from the United Kingdom and accessing the Sharepoint site from MODNet, DII, etc, you should select the FVEY_CWE option.  You should be automatically logged in.  </p>
 
                 <p>If you are unsure which option to select please refer to the <a href="http://fvey.diif.s.mil.uk/pages/FrequentlyAskedQuestions.aspx">Frequently Asked Question</a> page.</p>
             
                 <p>Select the credentials you want to use to logon to this Sharepoint site:</p>
 
-                <SharepointIdentity:LogonSelector ID="ClaimsLogonSelector" runat="server" />
+                Sign In <SharepointIdentity:LogonSelector ID="ClaimsLogonSelector" runat="server" />
             </div>
         </div>
         <!-- Removed by PW - <SharePoint:EncodedLiteral runat="server"  EncodeMethod="HtmlEncode" Id="ClaimsLogonPageMessage" />
         <br />
         <br /> -->
-
-        
-    
     </div>
     
 

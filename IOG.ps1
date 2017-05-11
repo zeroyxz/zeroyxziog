@@ -27,10 +27,10 @@ function AddPowerShellSnapin(){
     Add-PSSnapin "Microsoft.SharePoint.PowerShell"
 }
 
-$RunIOGSiteSetup = Read-Host "Do you want to configure the IOG site, [Y]es or [N]o (only run once per farm):"
-$ConfigureLoginPage = Read-Host "Do you want to configure the IOG Login page, [Y]es or [N]o (run on every WFE):"
-$ConfigureIISDefaultPage = Read-Host "Do you want to configure the IOG Default page, [Y]es or [N]o (run on every WFE):"
-
+$RunIOGSiteSetup = 'N'#DEBUG#Read-Host "Do you want to configure the IOG site, [Y]es or [N]o (only run once per farm):"
+$ConfigureLoginPage = 'Y'#DEBUG#Read-Host "Do you want to configure the IOG Login page, [Y]es or [N]o (run on every WFE):"
+$ConfigureIISDefaultPage = 'N'#DEBUG#Read-Host "Do you want to configure the IOG Default page, [Y]es or [N]o (run on every WFE):"
+$caveat = Read-Host "Which caveat is being customised?:[E]=5-EYE, [U]=UKUS, [A]=AUSUK, enter E,U or A:"
 
 if ($RunIOGSiteSetup -eq "Y"){
     cd SiteSetup
