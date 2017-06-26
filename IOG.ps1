@@ -121,6 +121,7 @@ function UpdateMedia([string]$DestPath, [string]$FileName){
 $RunIOGSiteSetup = Read-Host "Do you want to configure the IOG site, [Y]es or [N]o (only run once per farm):"
 $ConfigureLoginPage = Read-Host "Do you want to configure the IOG Login page, [Y]es or [N]o (run on every WFE):"
 $ConfigureIISDefaultPage = Read-Host "Do you want to configure the IOG Default page, [Y]es or [N]o (run on every WFE):"
+$CTHubSetUp = Read-Host "Do you want to create a Site Collection to host the Content Type Hub, [Y]es or [N]o (only run once per farm):"
 $caveat = Read-Host "Which caveat is being customised?:[E]=5-EYE, [U]=UKUS, [A]=AUSUK, enter E,U or A:"
 
 if ($RunIOGSiteSetup -eq "Y"){
@@ -144,6 +145,16 @@ if ($ConfigureIISDefaultPage -eq "Y"){
     cd..
 }
 
+if ($CTHubSetUp -eq "Y"){
+    cd C:\iog\CreateCTHub
+    .\CreateCTHub.ps1
+    cd..
+}
 
+
+#-Reset execution policy-#
+If ($OldPolicy -ne "Unchanged"){
+    Set-ExecutionPolicy $OldPolicy -Force
+}
 
 

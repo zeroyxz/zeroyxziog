@@ -49,9 +49,10 @@
                 
             </div>
 
-            <div class="login-text">            
-                <p>The drop down below will present you with two choices for you to select from.  You should select the Windows Authentication in the drop down if you're a user from one of the other FVEY's nations.  When prompted enter UKFVEY\&lt;userid&gt; into the Username field and your UK Pegasus password into the Password field.  If you're a user from the United Kingdom and accessing the Sharepoint site from MODNet, DII, etc, you should select the FVEY_CWE option.  You should be automatically logged in.  </p>
-
+            <div class="login-text"> 
+		<p>The drop-down below presents two options. Select &apos;FVEY_CWE&apos; if you are a United Kingdom user and are accessing the SharePoint site from MODNet, DII, etc.;  you should be automatically logged in.  
+			If you are a user from one of the other FVEY nations you should select &apos;Windows Authentication&apos;. When prompted, enter UKFVEY\&lt;userid&gt; into the Username field and your UK Pegasus password into the Password field. </p>
+           
                 <p>If you are unsure which option to select please refer to the <a href="http://fvey.diif.s.mil.uk/pages/FrequentlyAskedQuestions.aspx">Frequently Asked Question</a> page.</p>
             
                 <p>Select the credentials you want to use to logon to this Sharepoint site:</p>

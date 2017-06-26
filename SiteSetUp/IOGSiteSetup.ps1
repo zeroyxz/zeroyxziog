@@ -191,7 +191,3 @@ if ($option -eq "F"){
 #-Change the suite bar-#
 ChangeSuiteBar
 
-#-Reset execution policy-#
-If ($OldPolicy -ne "Unchanged"){
-    Set-ExecutionPolicy $OldPolicy -Force
-}
