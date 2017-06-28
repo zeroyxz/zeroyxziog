@@ -43,10 +43,11 @@ function Get-TermSet(
     [string]$termSetName
 )
 {
-    $termStore
+    $termStore = Get-TermStoreDefault
+    return $termStore.Groups[$groupName].TermSets[$termSetName]
 }
 
-function Create_SPObjects{
+function Create-SPObjects{
     param(
         [Parameter(mandatory=$true)][string]$CTHubUrl
     )
@@ -60,7 +61,33 @@ function Create_SPObjects{
     }
 }
 
-function Create_TextColumns{
+function Create-TaxonomyField(
+    [Microsoft.SharePoint.SPWeb]$web,
+    [string]$staticName,
+    [string]$displayName,
+    [string]$fieldGroup,
+    [string]$termStoreGroupName,
+    [string]$termSetName,
+    [bool]$allowMultiValues,
+    [bool]$required
+)
+{
+    $termSet = Get-TermSet $termStoreGroupName $termSetName
+    $taxonomyFld.SspId = $termSet.TermStore.Id
+    $taxonomyFld.TermSetId = $termSet.Id
+    $taxonomyFld.AllowMultipleValues = $allowMultiValues
+    $taxonomyFld.Group = $fieldGroup
+    $taxonomyFld.StaticName = $staticName
+    $taxonomyFld.ShowInEditForm = $true
+    $taxonomyFld.ShowInNewForm = $true
+    $taxonomyFld.Hidden = $false
+    $taxonomyFld.Required=$required
+    $web.Fields.Add($taxonomyFld)
+    $web.Update()
+    return $taxonomyFld 
+}
+
+function Create-TextColumns{
     param(
         [Parameter(mandatory=$true)][string]$Name,
         [Parameter(mandatory=$true)][bool]$MultiLine,
