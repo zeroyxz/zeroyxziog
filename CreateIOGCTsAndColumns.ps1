@@ -24,6 +24,24 @@ Start-SPAssignment -Global
 
 $site = $null
 $web = $null
+$groupName= "IOG"
+$siteCollectionUrl = "http://cthub/sites/test/"
+
+function Create-SPObjects{
+    param(
+        [Parameter(mandatory=$true)][string]$CTHubUrl
+    )
+    $script:site = Get-SPSite $CTHubUrl
+    if (!$script:site){
+        throw "No site found at " + $CTHubUrl
+    }
+    else
+    {
+        $script:web = $script:site.RootWeb;
+        Write-Host "Created SharePoint Objects SPSite and SPWeb. Web title is " $script:web.Title -ForegroundColor Magenta
+    }
+
+}
 
 function Get-TaxonomySessionDefault(){
     $centralAdmin = Get-SPWebApplication -IncludeCentralAdministration | Where {$_.IsAdministrationWebApplication} | Get-SPSite
@@ -47,60 +65,70 @@ function Get-TermSet(
     return $termStore.Groups[$groupName].TermSets[$termSetName]
 }
 
-function Create-SPObjects{
-    param(
-        [Parameter(mandatory=$true)][string]$CTHubUrl
-    )
-    $site = Get-SPSite $CTHubUrl
-    if (!($site -eq $null)){
-        throw "No site found at " + $CTHubUrl
-    }
-    else
-    {
-        $web = $site.RootWeb;
-    }
-}
 
 function Create-TaxonomyField(
-    [Microsoft.SharePoint.SPWeb]$web,
     [string]$staticName,
-    [string]$displayName,
-    [string]$fieldGroup,
+ #   [string]$displayName,
+    [string]$group,
     [string]$termStoreGroupName,
     [string]$termSetName,
     [bool]$allowMultiValues,
-    [bool]$required
+    [bool]$required,
+    [bool]$open
 )
 {
     $termSet = Get-TermSet $termStoreGroupName $termSetName
     $taxonomyFld.SspId = $termSet.TermStore.Id
     $taxonomyFld.TermSetId = $termSet.Id
     $taxonomyFld.AllowMultipleValues = $allowMultiValues
-    $taxonomyFld.Group = $fieldGroup
+    $taxonomyFld.Group = $group
+    $taxonomyFld.Open = $open
     $taxonomyFld.StaticName = $staticName
-    $taxonomyFld.ShowInEditForm = $true
-    $taxonomyFld.ShowInNewForm = $true
+#    $taxonomyFld.ShowInEditForm = $true
+#    $taxonomyFld.ShowInNewForm = $true
     $taxonomyFld.Hidden = $false
     $taxonomyFld.Required=$required
-    $web.Fields.Add($taxonomyFld)
-    $web.Update()
+    $script:web.Fields.Add($taxonomyFld)
+    $script:web.Update()
+
+    Write-Host "Created TaxonomyField " + $staticName -ForegroundColor Magenta
+
     return $taxonomyFld 
 }
 
-function Create-TextColumns{
+function Create-NoteField{
+    [cmdletbinding()]
+    param(
+        [Parameter(Mandatory=$true)][string]$Name,
+        [Parameter(Mandatory=$true)][bool]$Required,
+        [Parameter(Mandatory=$true)][string]$Group
+    )
+
+    $script:web.Fields.Add($Name, "Note", $Required)
+    $fld = $script:web.Fields.GetField($Name)
+    $fld.Group = $Group
+
+    Write-Host "Created Note field " + $Name -ForegroundColor Magenta
+    return $fld
+}
+
+function Create-TextField{
     param(
         [Parameter(mandatory=$true)][string]$Name,
-        [Parameter(mandatory=$true)][bool]$MultiLine,
         [Parameter(mandatory=$true)][bool]$Required,
         [Parameter(mandatory=$true)][string]$Group
     )
 
-    $web.Fields.Add($Name, "Text", $Required)
-    $fld = $web.Fields.GetField($Name)
+    $script:web.Fields.Add($Name, "Text", $Required)
+    $fld = $script:web.Fields.GetField($Name)
     $fld.Group = $Group
+
+    Write-Host "Created Text field " + $Name -ForegroundColor Magenta
+    return $fld
 }
 
-function Create_ContentTypes{
+
+function Create-ContentType{
     param(
         [Parameter(mandatory=$true)][string]$CTName,
         [Parameter(mandatory=$true)][string]$CTParent,
@@ -108,37 +136,106 @@ function Create_ContentTypes{
     )
 
     #Check it doesn't already exist - create if not present
-    $ct = $web.AvailableContentTypes[$CTName]
-    if ($ct -eq $null){
-        $ct = new-object Microsoft.SharePoint.SPContentType($web.AvailableContentTypes[$CTParent],$web.contenttypes, $CTName)
-    }
+    if ($script:web){
+        if ($script:web.AvailableContentTypes){
+            $ct = $script:web.AvailableContentTypes["$CTName"]
+            if (!$ct){
+                $ct = new-object Microsoft.SharePoint.SPContentType($script:web.AvailableContentTypes[$CTParent],$script:web.contenttypes, $CTName)
+                $script:web.contenttypes.add($ct)
+                Write-Host "Created Content Type $CTName" -ForegroundColor Magenta     
+            }
+            else
+            {
+                Write-host "Content Type $CTName already present. It has not been re-created" -ForegroundColor Magenta
+            }
+            if ($ct.Group -ne $Group){
+                $ct.Group = $Group
+            }
 
-    if ($ct.Group -ne $Group){
-        $web.contenttypes.add($ct)
+            return $ct;
+        } 
+        else 
+        {
+            throw "No Available Content Types can be found"
+        }
+    } 
+    else 
+    {
+        throw "No SPWeb Object" 
     }
-
 }
 
-function Publish_ContentTypes{
+function Publish-ContentTypes{
     param(
         [Parameter(mandatory=$true)][string]$Group
     )
 
-    $CTPublisher = New-Object Micrsoft.SharePoint.Taxonomy.ContentTypeSync.ContentTypePublisher($site)
-    $site.RootWeb.ContentTypes | ? {$_.Group -match $Group} | ForEach-Object {
+    $CTPublisher = New-Object Micrsoft.SharePoint.Taxonomy.ContentTypeSync.ContentTypePublisher($script:site)
+    $script:site.RootWeb.ContentTypes | ? {$_.Group -match $Group} | ForEach-Object {
         $CTPublisher.Publish($_)
         Write-Host "Published Content Type " $_.Name -ForegroundColor Magenta
     }
-    
+}
+
+function Process-Fields{
+    param(
+        [Parameter(mandatory=$true)][string]$filePath,
+        [Parameter(mandatory=$true)][string]$group,
+        [Parameter(mandatory=$false)][Microsoft.SharePoint.SPContentType[]]$contentTypes
+    )
+    $Req = $null
+    $fld = $null
+
+    Write-Host "Calling Process-Fields function" -ForegroundColor Magenta
+
+    Import-Csv $filePath | ForEach-Object {
+        $Name = $_.Name
+        Write-Host "Processing field" $Name -ForegroundColor Magenta
+        if (!($_.Name -eq "Title")){
+            if ($_.Required -eq "Y") {$Req = $true} else {$Req = $false}
+
+            Switch ($_.Type){
+                "Text" {
+                    $fld = Create-TextField -Name $Name -Required $Req -Group $group
+                }
+                "Note" {
+                    $fld = Create-NoteField -Name $Name -Required $Req -Group $group
+                }
+                "Managed Metadata"{
+                    $fld = Create-TaxonomyField -staticName $Name -group $group -termStoreGroupName "IOG" -termSetName $_.TermSetName -allowMultiValues $false -required $true -open $false
+                }
+        
+            }
+
+            $fieldLink = New-Object Microsoft.SharePoint.SPFieldLink($fld)
+            ForEach($contentType in $contentTypes){
+                $contentType.FieldLinks.Add($fieldLink)
+                $contentType.Update()
+            }
+        }
+    }
     
 }
 
-Create_SPObjects -CTHubUrl "http://cthub/"
 
-Create_ContentTypes -CTName "IOG Document" -CTParent "Document" -Group "IOG"
-Create_ContentTypes -CTName "IOG Picture" -CTParent "Picture" -Group "IOG"
-Create_ContentTypes -CTName "IOG MoDBox" -CTParent "IOG Document" -Group "IOG"
 
-Publish_ContentTypes -Group "IOG"
+Create-SPObjects -CTHubUrl $siteCollectionUrl
+
+
+#[Microsoft.SharePoint.SPContentType[]]$contentTypes
+
+$contentTypes = @()
+$contentTypes += Create-ContentType -CTName "IOG Document" -CTParent "Document" -Group $groupName
+$contentTypes += Create-ContentType -CTName "IOG Picture" -CTParent "Picture" -Group $groupName
+$contentTypes += Create-ContentType -CTName "IOG MoDBox" -CTParent "IOG Document" -Group $groupName
+
+Process-Fields -filePath 'c:\iog\iog_columns.csv' -group $groupName -contentTypes $contentTypes 
+
+
+#Publish-ContentTypes -Group $groupName
+
+
+
+
 
 Stop-SPAssignment -Global
