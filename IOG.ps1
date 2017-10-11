@@ -9,7 +9,7 @@ cd\
 cd c:\iog
 cls
 
-$Policy = "RemoteSigned"
+$Policy = "Unrestricted"
 $OldPolicy = "Unchanged"
 $CaveatText="Unset"
 $CaveatImage="Unset"
@@ -105,6 +105,7 @@ function UpdateMedia([string]$DestPath, [string]$FileName){
         default {"Do not understand the caveat you have entered"}
     }
 
+    Unblock-File -Path .\ReplaceFileString.ps1
     if ($FileName -eq "default.aspx"){
         .\ReplaceFileString.ps1 -Pattern 'caveattexthere' -Replacement $CaveatText -path $DestPath\default.aspx -overwrite
         .\ReplaceFileString.ps1 -Pattern 'caveatimageshere' -Replacement $CaveatImage -path $DestPath\default.aspx -overwrite
@@ -127,6 +128,7 @@ $caveat = Read-Host "Which caveat is being customised?:[E]=5-EYE, [U]=UKUS, [A]=
 if ($RunIOGSiteSetup -eq "Y"){
     cd c:\iog\SiteSetup
     #-Note that the IOG setup only needs to be run once on a server farm and applies to a web application and site collection-#
+    Unblock-File -Path .\IOGSiteSetup.ps1
     .\IOGSiteSetup.ps1
     cd..
 }
@@ -134,6 +136,7 @@ if ($RunIOGSiteSetup -eq "Y"){
 if ($ConfigureLoginPage -eq "Y"){
     cd c:\iog\LoginPage
     #-Note that the Login page is a SharePoint file changed on the file system and needs to be run on every WFE-#
+    Unblock-File -Path .\IOGLoginPage.ps1
     .\IOGLoginPage.ps1
     cd..
 }
@@ -141,12 +144,14 @@ if ($ConfigureLoginPage -eq "Y"){
 if ($ConfigureIISDefaultPage -eq "Y"){
     cd c:\iog\DefaultPage
     #-Note that the default page is an IIS file changed on the file system and needs to be run on every WFE-#
+    Unblock-File -Path .\IOGDefaultPage.ps1
     .\IOGDefaultPage.ps1
     cd..
 }
 
 if ($CTHubSetUp -eq "Y"){
     cd C:\iog\CreateCTHub
+    Unblock-File -Path .\CreateCTHub.ps1
     .\CreateCTHub.ps1
     cd..
 }
