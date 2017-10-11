@@ -123,11 +123,21 @@ function UploadFileToStyleLibrary{
 function ChangeSuiteBar{
     #Note the suitebar is updated for the entire web application - not on a site collection basis
     $wa = $site.WebApplication
-    $wa.SuiteBarBrandingElementHtml = " <div id=""suitebarouter"" style=""background-color: $colour""> `
-        <img src=""/Style%20Library/IOG/banner_flags.jpg"" alt=""banner"" style=""display:block; margin-left:auto; margin-right:auto""/> `
+    $wa.SuiteBarBrandingElementHtml = " <div id=""iogSuiteBarLeft"" class=""iogsuitebar""> `
+        <img id=""leftSuiteImage""src=""/Style%20Library/IOG/banner_flags.jpg"" alt=""banner"" /> `
+        <span id=""suiteText"">Minimum classification of content is UK SECRET AUS/CAN/NZL/UK/USA EYES only</span> `
+        <img id=""rightSuiteImage"" src=""/Style%20Library/IOG/banner_flags.jpg"" alt=""banner"" /> `
       </div>"
     $wa.Update()
     Write-Host "Updated the suitebar" -ForegroundColor Magenta
+}
+
+function ResetSuiteBar{
+    #Note the suitebar is updated for the entire web application - not on a site collection basis
+    $wa = $site.WebApplication
+    $wa.SuiteBarBrandingElementHtml = ""
+    $wa.Update()
+    Write-Host "Reset the suitebar" -ForegroundColor Magenta
 }
 
 #-Get the correct image for the caveat being deployed-#
@@ -150,12 +160,12 @@ Write-Host "Below is the version of Windows Powershell - if its not 3 or above i
 $PSVersionTable.PSVersion
 
 #Make sure SharePoint Powershell module is loaded
-AddPowerShellSnapin
+Add-PSSnapin "Microsoft.SharePoint.PowerShell"
 
 #-Get information from user about what we are deployin-#
 
-$option = Read-Host "Do you want the full customisation of the IOG site [F] or just the SuiteBar updated [S]:"
-$url = Read-Host "What is the URL of your site colection:"
+$option = Read-Host "Do you want the full customisation of the IOG site [F] or the SuiteBar set [S] or SuiteBar Upgrade [U]:"
+$url = Read-Host "What is the URL of your site collection:"
 
 #-Set variables used throughout-#
 $Site = Get-SPSite $url
@@ -183,11 +193,23 @@ if ($option -eq "F"){
     #Upload files to Style Library
     UploadFileToStyleLibrary "Root" "banner_flags.jpg"
     UploadFileToStyleLibrary "Root" "UK_Flag.ico"
+    UploadFileToStyleLibrary "Root" "IOG_SP.css"
 
     #delete copied file
     Remove-Item "banner_flags.jpg" -Force
+
+    ChangeSuiteBar
+
 }
 
-#-Change the suite bar-#
-ChangeSuiteBar
+if ($option -eq "U"){
+#SELECT S whilst sorting out header
+    ResetSuiteBar    
+    UploadFileToStyleLibrary "Root" "IOG_SP.css"
+    UploadFileToStyleLibrary "Root" "banner_flags.jpg"
+    UploadFileToMasterPageGallery("IOG.html")
+    ChangeSuiteBar
+} 
+
+
 

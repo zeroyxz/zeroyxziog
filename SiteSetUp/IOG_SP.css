@@ -1,0 +1,47 @@
+.iogsuitebar {
+	
+}
+
+
+#leftSuiteImage {
+	float:left;
+}
+
+#rightSuiteImage {
+	float:right;
+}
+
+
+#suiteText {
+	display: block;
+	line-height: normal;
+	height: 100%;
+	float:left;
+	width:calc(100% - 528px);
+	margin:auto;
+	text-align: center;
+}
+
+@media screen and (max-width:1024px){
+	#rightSuiteImage{
+		display: none !important;
+	}
+
+	#suiteText{
+		width:calc(100% - 265px) !important;
+	}
+}
+
+@media screen and (max-width:750px){
+	#rightSuiteImage{
+		display: none !important;
+	}
+
+	#leftSuiteImage{
+		display: none !important;
+	}
+
+	#suiteText{
+		width: 100% !important;
+	}
+}
