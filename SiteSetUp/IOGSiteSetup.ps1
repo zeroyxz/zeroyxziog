@@ -120,13 +120,13 @@ function UploadFileToStyleLibrary{
 }
 
 #-Sets the SuiteBar for the Web Application-#
-function ChangeSuiteBar{
+function ChangeSuiteBar {
     #Note the suitebar is updated for the entire web application - not on a site collection basis
     $wa = $site.WebApplication
     $wa.SuiteBarBrandingElementHtml = " <div id=""iogSuiteBarLeft"" class=""iogsuitebar""> `
-        <img id=""leftSuiteImage""src=""/Style%20Library/IOG/banner_flags.jpg"" alt=""banner"" /> `
-        <span id=""suiteText"">Minimum classification of content is UK SECRET AUS/CAN/NZL/UK/USA EYES only</span> `
-        <img id=""rightSuiteImage"" src=""/Style%20Library/IOG/banner_flags.jpg"" alt=""banner"" /> `
+        <img id=""leftSuiteImage""src=""/Style%20Library/IOG/banner_flags.jpg"" alt=""banner-left"" /> `
+        <img id=""rightSuiteImage"" src=""/Style%20Library/IOG/banner_flags.jpg"" alt=""banner-right"" /> `
+        <span id=""suiteText"">$Script:SuiteBarText</span> `
       </div>"
     $wa.Update()
     Write-Host "Updated the suitebar" -ForegroundColor Magenta
@@ -144,9 +144,18 @@ function ResetSuiteBar{
 function GetRightImage{
     switch ($caveat)
     {
-        "A" {Copy-Item AUSUK_banner_flags.jpg -Destination banner_flags.jpg}
-        "E" {Copy-Item EYE_banner_flags.jpg -Destination banner_flags.jpg}
-        "U" {Copy-Item UKUS_banner_flags.jpg -Destination banner_flags.jpg}
+        "A" {
+            Copy-Item AUSUK_banner_flags.jpg -Destination banner_flags.jpg
+            $Script:SuiteBarText="Minimum classification of content is UK SECRET AUS/UK EYES only"
+        }
+        "E" {
+            Copy-Item EYE_banner_flags.jpg -Destination banner_flags.jpg
+            $Script:SuiteBarText="Minimum classification of content is UK SECRET AUS/CAN/NZL/UK/USA EYES only"
+        }
+        "U" {
+            Copy-Item UKUS_banner_flags.jpg -Destination banner_flags.jpg
+            $Script:SuiteBarText="Minimum classification of content is UK SECRET UK/US EYES only"
+        }
         default {"Do not understand the caveat you have entered"}
     }
 }
@@ -164,7 +173,7 @@ Add-PSSnapin "Microsoft.SharePoint.PowerShell"
 
 #-Get information from user about what we are deployin-#
 
-$option = Read-Host "Do you want the full customisation of the IOG site [F] or the SuiteBar set [S] or SuiteBar Upgrade [U]:"
+$option = Read-Host "Do you want the full customisation of the IOG site [F] or just the SuiteBar [S]"
 $url = Read-Host "What is the URL of your site collection:"
 
 #-Set variables used throughout-#
@@ -174,6 +183,8 @@ $MasterPageList = ($Web).GetFolder("Master Page Gallery")
 $StyleLibrary = $Web.Lists["Style Library"]
 $RootSite = Get-SPSite $site.WebApplication.Url
 $RootStyleLibrary = $RootSite.RootWeb.Lists["Style Library"]
+$SuiteBarText=""
+
 
 #-If we're doing a full deployment execute this section-#
 if ($option -eq "F"){
@@ -198,18 +209,10 @@ if ($option -eq "F"){
     #delete copied file
     Remove-Item "banner_flags.jpg" -Force
 
-    ChangeSuiteBar
+    ChangeSuiteBar $SuiteBarText
 
 }
 
-if ($option -eq "U"){
-#SELECT S whilst sorting out header
-    ResetSuiteBar    
-    UploadFileToStyleLibrary "Root" "IOG_SP.css"
-    UploadFileToStyleLibrary "Root" "banner_flags.jpg"
-    UploadFileToMasterPageGallery("IOG.html")
-    ChangeSuiteBar
-} 
 
 
 
