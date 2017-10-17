@@ -1,6 +1,7 @@
 #suiteBarLeft {
 	background-color: rgb(255,255,255);
 	color: rgb(0,0,0);
+	height: 30px;
 }
 
 
@@ -17,12 +18,19 @@
 
 #suiteText {
 	display: block;
-	line-height: normal;
+	line-height: 30px;
 	height: 100%;
 	width:auto;
 	text-align: center;
 	font-size:1.1em;
 	overflow:hidden;
+}
+
+@media screen and (max-width:1300px){
+	#suiteText{
+		width:auto;
+		line-height: normal !important;
+	}
 }
 
 @media screen and (max-width:1024px){
@@ -32,6 +40,7 @@
 
 	#suiteText{
 		width:auto;
+		line-height: normal;
 	}
 }
 
@@ -46,5 +55,6 @@
 
 	#suiteText{
 		width: 100% !important;
+		line-height: normal;
 	}
 }

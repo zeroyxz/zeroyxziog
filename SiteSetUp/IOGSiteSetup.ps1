@@ -165,15 +165,12 @@ function GetRightImage{
 #-------------------------------#
 
 
-Write-Host "Below is the version of Windows Powershell - if its not 3 or above it probably needs updating" -ForegroundColor Magenta
-$PSVersionTable.PSVersion
-
 #Make sure SharePoint Powershell module is loaded
 Add-PSSnapin "Microsoft.SharePoint.PowerShell"
 
 #-Get information from user about what we are deployin-#
 
-$option = Read-Host "Do you want the full customisation of the IOG site [F] or just the SuiteBar [S]"
+$option = "F" #Read-Host "Do you want the full customisation of the IOG site [F] or just the SuiteBar [S]"
 $url = Read-Host "What is the URL of your site collection:"
 
 #-Set variables used throughout-#
